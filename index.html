@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đánh giá trải nghiệm - Bảo tàng Tôn Đức Thắng</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    text-align:center;
+    /*background-image:url("https://baotangtonducthang.vn/upload/filemanage/z4766334399729_cf94ba7d6139a98a98f7e30ce41336b3.jpg");*/
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    
+    color:white;
+}
+ #bgVideo{
+  position:fixed;
+  right:0;
+  bottom:0;
+  min-width:100%;
+  min-height:100%;
+  z-index:-1;
+  object-fit:cover;
+}
+
+.container{
+    background:rgba(0,0,0,0.55);
+    padding:60px 80px;
+    border-radius:20px;
+}
+    
+
+.logo{
+    width:120px;
+    margin-bottom:10px;
+}
+
+h1{
+    margin-bottom:50px;
+    font-size:42px;
+}
+
+.rating{
+    display:flex;
+    justify-content:center;
+    gap:35px;
+    flex-wrap:wrap;
+}
+
+.emoji{
+    font-size:85px;
+    cursor:pointer;
+    transition:transform 0.2s, filter 0.2s;
+}
+
+.emoji:hover{
+    transform:scale(1.2);
+}
+
+.glow{
+    animation:glow 0.6s ease;
+}
+
+@keyframes glow{
+    0%{filter:drop-shadow(0 0 0px yellow)}
+    50%{filter:drop-shadow(0 0 20px yellow)}
+    100%{filter:drop-shadow(0 0 0px yellow)}
+}
+
+.label{
+    margin-top:12px;
+    font-size:24px;
+}
+
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.popup-content{
+    background:white;
+    color:#333;
+    padding:40px;
+    border-radius:18px;
+    text-align:center;
+    animation:fadeIn 0.4s ease;
+}
+
+.popup img{
+    width:120px;
+    margin-bottom:10px;
+    animation:robotMove 2s infinite ease-in-out;
+}
+
+@keyframes robotMove{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
+    100%{transform:translateY(0)}
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:scale(0.9)}
+    to{opacity:1; transform:scale(1)}
+}
+
+/*.lang-btn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:50px;
+    height:35px;
+    cursor:pointer;
+}*/
+.lang-btn{
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    width:70px;
+    height:50px;
+    cursor:pointer;
+    border-radius:8px;
+    box-shadow:0 0 10px rgba(255,255,255,0.6);
+    transition:transform 0.2s;
+}
+
+.lang-btn:hover{
+    transform:translateX(-50%) scale(1.1);
+}
+
+</style>
+</head>
+    
+<video autoplay muted loop id="bgVideo">
+  <source src="museum.mp4" type="video/mp4">
+</video>
+    
+<body>
+
+<div class="container">
+
+<img class="logo" src="logo.png" alt="Logo">
+
+<h1 id="title">Quý khách đánh giá trải nghiệm tham quan</h1>
+
+<div class="rating">
+
+<div onclick="rate('Không hài lòng',this)">
+<div class="emoji">😠</div>
+<div class="label" id="l1">Không hài lòng</div>
+</div>
+
+<div onclick="rate('Bình thường',this)">
+<div class="emoji">😐</div>
+<div class="label" id="l2">Bình thường</div>
+</div>
+
+<div onclick="rate('Hài lòng',this)">
+<div class="emoji">🙂</div>
+<div class="label" id="l3">Hài lòng</div>
+</div>
+
+<div onclick="rate('Rất hài lòng',this)">
+<div class="emoji">😍</div>
+<div class="label" id="l4">Rất hài lòng</div>
+</div>
+
+</div>
+
+</div>
+
+<audio id="ting" preload = "auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type = "audio/mpeg">
+</audio>
+
+<div class="popup" id="popup">
+<div class="popup-content">
+<img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
+<h2 id="thanks">Cảm ơn quý khách đã đánh giá</h2>
+<p id="wish">Chúc quý khách một ngày tốt lành</p>
+</div>
+</div>
+
+<img id="langToggle" class="lang-btn" src="https://flagcdn.com/w40/gb.png" onclick="toggleLang()">
+
+<script>
+
+const scriptURL = "https://script.google.com/macros/s/AKfycbxvYtfHXXHgK3Y3s-b28VN67wgQXW0hOr2NrMsWbLdMky_mdGLT9sWj9hBmAiS5bP9r/exec";
+let currentLang="vi";
+
+function rate(value,el){
+
+    document.getElementById("ting").play().catch(()=>{});
+
+    const emoji = el.querySelector(".emoji");
+    emoji.classList.add("glow");
+
+    setTimeout(()=>{
+        emoji.classList.remove("glow");
+    },600);
+
+    const now = new Date();
+
+    const hours = String(now.getHours()).padStart(2,'0');
+    const minutes = String(now.getMinutes()).padStart(2,'0');
+    const seconds = String(now.getSeconds()).padStart(2,'0');
+
+    // convert rating language depending on selected UI language
+    let ratingText = value;
+
+    if(currentLang === "en"){
+        const map = {
+            "Không hài lòng":"Very Dissatisfied",
+            "Bình thường":"Neutral",
+            "Hài lòng":"Satisfied",
+            "Rất hài lòng":"Very Satisfied"
+        };
+        ratingText = map[value] || value;
+    }
+
+    const data = {
+        rating: ratingText,
+        date: now.toISOString().split('T')[0],
+        time: `${hours}:${minutes}:${seconds}`
+    };
+
+    fetch(scriptURL,{
+        method:"POST",
+        mode:"no-cors",
+        body:JSON.stringify(data),
+        headers:{"Content-Type":"application/json"}
+    })
+    .catch(err=>console.log(err));
+
+    const popup=document.getElementById("popup");
+    popup.style.display="flex";
+
+    setTimeout(()=>{
+        popup.style.display="none";
+    },2500);
+}
+
+function toggleLang(){
+
+    if(currentLang==="vi"){
+
+        document.getElementById("title").innerText="Please rate your visit experience";
+        document.getElementById("l1").innerText="Dissatisfied";
+        document.getElementById("l2").innerText="Neutral";
+        document.getElementById("l3").innerText="Satisfied";
+        document.getElementById("l4").innerText="Very satisfied";
+        document.getElementById("thanks").innerText="Thank you for your feedback";
+        document.getElementById("wish").innerText="Have a wonderful day";
+
+        document.getElementById("langToggle").src="https://flagcdn.com/w40/vn.png";
+
+        currentLang="en";
+
+    }else{
+
+        document.getElementById("title").innerText="Quý khách đánh giá trải nghiệm tham quan";
+        document.getElementById("l1").innerText="Không hài lòng";
+        document.getElementById("l2").innerText="Bình thường";
+        document.getElementById("l3").innerText="Hài lòng";
+        document.getElementById("l4").innerText="Rất hài lòng";
+        document.getElementById("thanks").innerText="Cảm ơn quý khách đã đánh giá";
+        document.getElementById("wish").innerText="Chúc quý khách một ngày tốt lành";
+
+        document.getElementById("langToggle").src="https://flagcdn.com/w40/gb.png";
+
+        currentLang="vi";
+    }
+}
+
+</script>
+
+</body>
+</html>
