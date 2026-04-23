@@ -146,7 +146,7 @@ h1{
 </style>
 </head>
     
-<video autoplay muted loop id="bgVideo">
+<video autoplay muted loop playsinline id="bgVideo">
   <source src="museum.mp4" type="video/mp4">
 </video>
     
@@ -185,7 +185,7 @@ h1{
 </div>
 
 <audio id="ting" preload = "auto">
-    <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type = "audio/mpeg">
+    <source src="ting.mp3" type = "audio/mpeg">
 </audio>
 
 <div class="popup" id="popup">
@@ -204,8 +204,11 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbxvYtfHXXHgK3Y3s-b28V
 let currentLang="vi";
 
 function rate(value,el){
-
-    document.getElementById("ting").play().catch(()=>{});
+    const sound = document.getElementById("ting");
+    sound.pause();
+    sound.currentTime = 0;
+    sound.volume = 1;
+    sound.play().catch(err => console.log(err));
 
     const emoji = el.querySelector(".emoji");
     emoji.classList.add("glow");
