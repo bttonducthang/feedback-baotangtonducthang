@@ -142,16 +142,80 @@ h1{
 .lang-btn:hover{
     transform:translateX(-50%) scale(1.1);
 }
+    
+/* ===== MOBILE ===== */
+@media (max-width: 768px){
 
+body{
+    padding:20px;
+    height:auto;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:95%;
+    padding:30px 20px;
+    border-radius:16px;
+}
+
+.logo{
+    width:90px;
+}
+
+h1{
+    font-size:28px;
+    line-height:1.4;
+    margin-bottom:30px;
+}
+
+.rating{
+    gap:20px;
+}
+
+.rating > div{
+    width:45%;
+}
+
+.emoji{
+    font-size:60px;
+}
+
+.label{
+    font-size:18px;
+}
+
+.popup-content{
+    width:90%;
+    padding:25px 20px;
+}
+
+.popup img{
+    width:80px;
+}
+
+#thanks{
+    font-size:24px;
+}
+
+#wish{
+    font-size:16px;
+}
+
+.lang-btn{
+    width:60px;
+    height:42px;
+    bottom:20px;
+}
+
+}
 </style>
 </head>
     
+<body>
 <video autoplay muted loop playsinline id="bgVideo">
   <source src="museum.mp4" type="video/mp4">
 </video>
-    
-<body>
-
 <div class="container">
 
 <img class="logo" src="logo.png" alt="Logo">
